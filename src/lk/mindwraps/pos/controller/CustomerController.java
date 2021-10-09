@@ -21,7 +21,24 @@ public class CustomerController {
 
     public void saveOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 
+        Customer customer = new Customer(
+                txtId.getText(),
+                txtName.getText()
+        );
 
+        PreparedStatement stm = DBConnection.getInstance().
+                getConnection().prepareStatement(
+                "INSERT INTO Customer VALUES(?,?,?,?)");
+        stm.setString(1, customer.getId());
+        stm.setString(2, customer.getName());
+
+        if (stm.executeUpdate() > 0) {
+            new Alert(Alert.AlertType.CONFIRMATION,
+                    "Saved!", ButtonType.OK).show();
+        } else {
+            new Alert(Alert.AlertType.WARNING,
+                    "Try Again!", ButtonType.OK).show();
+        }
 
     }
 
